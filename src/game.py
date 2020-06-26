@@ -175,6 +175,9 @@ def main():
     try:
         jogo = Jogo(tela)
         jogo.rodar()
+
+    except curses.error:
+        pass
     finally:
         curses.endwin()
 
