@@ -121,7 +121,7 @@ class Jogo:
         self._linha_superior = Linha(tela)
         self._linha_inferior = Linha(tela, linhas - 1)
         self._barra_esquerda = Barra(tela)
-        self._barra_direita = Barra(tela, colunas - 1, linhas - 1)
+        self._barra_direita = Barra(tela, colunas - 1)
         self._ponto = Ponto(tela)
         self._tudo = [
             self._linha_superior, self._linha_inferior, self._barra_direita,
@@ -132,18 +132,28 @@ class Jogo:
         while True:
             self._tela.erase()
             self._ponto.andar()
-            self._mover_barra()
+            self._mover_barras()
             self._colisoes()
             self._exibir()
             self._tela.refresh()
             sleep(0.05)
 
-    def _mover_barra(self):
+    def _mover_barras(self):
         tecla = self._tela.getch()
+        self._mover_barra_direita(tecla)
+        self._mover_barra_esquerda(tecla)
+
+    def _mover_barra_esquerda(self, tecla):
         if tecla == 119:  # 'w'
             self._barra_esquerda.mover_cima()
         elif tecla == 115:  # 's'
             self._barra_esquerda.mover_baixo()
+
+    def _mover_barra_direita(self, tecla):
+        if tecla == 105:  # 'i'
+            self._barra_direita.mover_cima()
+        elif tecla == 107:  # 'k'
+            self._barra_direita.mover_baixo()
 
     def _exibir(self):
         self._ponto.exibir()
@@ -175,7 +185,6 @@ def main():
     try:
         jogo = Jogo(tela)
         jogo.rodar()
-
     except curses.error:
         pass
     finally:
